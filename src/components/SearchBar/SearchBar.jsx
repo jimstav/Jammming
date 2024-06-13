@@ -1,6 +1,6 @@
 const SearchBar = () => {
   return (
-    <div className="p-4 bg-gray-100 border-b border-gray-300">
+    <div className="w-10/12 p-4 bg-gray-100 border-b border-gray-300">
       <input
         type="text"
         placeholder="Search for a song"

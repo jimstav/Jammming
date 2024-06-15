@@ -570,6 +570,10 @@ video {
   display: grid;
 }
 
+.h-full {
+  height: 100%;
+}
+
 .h-screen {
   height: 100vh;
 }
@@ -584,10 +588,6 @@ video {
 
 .w-screen {
   width: 100vw;
-}
-
-.w-10\/12 {
-  width: 83.333333%;
 }
 
 .flex-1 {
@@ -663,6 +663,11 @@ video {
 .py-2 {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
 }
 
 .text-3xl {

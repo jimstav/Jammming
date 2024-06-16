@@ -1,6 +1,6 @@
 import Track from "../Track/Track";
 
-const Playlist = ({ name, tracks, onNameChange }) => {
+const Playlist = ({ name, tracks, onNameChange, remove }) => {
   return (
     <div className="bg-white p-4 border border-gray-300 rounded shadow h-full">
       <input
@@ -12,7 +12,7 @@ const Playlist = ({ name, tracks, onNameChange }) => {
       ></input>
       <ul className="mb-4">
         {tracks.map((value) => {
-          return <Track key={value.id} track={value} />;
+          return <Track key={value.id} track={value} removeFromPlaylist={remove} />;
         })}
       </ul>
       <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">

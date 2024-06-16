@@ -215,6 +215,10 @@ function App() {
     }
   };
 
+  const removeFromPlaylist = (trackId) => {
+    setPlaylist(playlist.filter((value) => value.id !== trackId));
+  };
+
   return (
     <>
       <h1 className="text-3xl font-bold m-3">Jammming</h1>
@@ -223,7 +227,12 @@ function App() {
           <SearchBar search={searchSpotify} />
           <div className="flex-1 p-4 grid grid-cols-1 lg:grid-cols-2 gap-4 h-full">
             <SearchResults tracks={tracks} addToPlaylist={addToPlaylist} />
-            <Playlist name={playlistName} tracks={playlist} onNameChange={onPlaylistNameChange} />
+            <Playlist
+              name={playlistName}
+              tracks={playlist}
+              onNameChange={onPlaylistNameChange}
+              remove={removeFromPlaylist}
+            />
           </div>
         </div>
       </div>

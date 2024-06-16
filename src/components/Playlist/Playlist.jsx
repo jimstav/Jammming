@@ -1,7 +1,20 @@
-const Playlist = () => {
+import Track from "../Track/Track";
+
+const Playlist = ({ name, tracks, onNameChange }) => {
   return (
     <div className="bg-white p-4 border border-gray-300 rounded shadow h-full">
-      {/* Playlist will go here */}
+      <input
+        type="text"
+        placeholder="Playlist Name"
+        value={name}
+        onChange={(e) => onNameChange(e.target.value)}
+        className="w-full p-2 border border-gray-400 rounded mb-4"
+      ></input>
+      <div className="mb-4">
+        {tracks.map((value) => {
+          return <Track key={value.id} track={value} />;
+        })}
+      </div>
       <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
         Save to Spotify
       </button>

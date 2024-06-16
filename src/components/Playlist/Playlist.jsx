@@ -10,11 +10,11 @@ const Playlist = ({ name, tracks, onNameChange }) => {
         onChange={(e) => onNameChange(e.target.value)}
         className="w-full p-2 border border-gray-400 rounded mb-4"
       ></input>
-      <div className="mb-4">
+      <ul className="mb-4">
         {tracks.map((value) => {
           return <Track key={value.id} track={value} />;
         })}
-      </div>
+      </ul>
       <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
         Save to Spotify
       </button>

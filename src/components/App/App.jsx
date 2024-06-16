@@ -198,6 +198,7 @@ const result = {
 function App() {
   const [tracks, setTracks] = useState([]);
   const [playlistName, setPlaylistName] = useState("");
+  const [playlist, setPlaylist] = useState([]);
 
   const searchSpotify = (searchTerm) => {
     console.log(`Searching Spotify for "${searchTerm}"`);
@@ -208,6 +209,12 @@ function App() {
     setPlaylistName(value);
   };
 
+  const addToPlaylist = (track) => {
+    if (!playlist.includes(track)) {
+      setPlaylist([...playlist, track]);
+    }
+  };
+
   return (
     <>
       <h1 className="text-3xl font-bold m-3">Jammming</h1>
@@ -215,8 +222,8 @@ function App() {
         <div className="w-11/12 h-full">
           <SearchBar search={searchSpotify} />
           <div className="flex-1 p-4 grid grid-cols-1 lg:grid-cols-2 gap-4 h-full">
-            <SearchResults tracks={tracks} />
-            <Playlist name={playlistName} tracks={tracks} onNameChange={onPlaylistNameChange} />
+            <SearchResults tracks={tracks} addToPlaylist={addToPlaylist} />
+            <Playlist name={playlistName} tracks={playlist} onNameChange={onPlaylistNameChange} />
           </div>
         </div>
       </div>

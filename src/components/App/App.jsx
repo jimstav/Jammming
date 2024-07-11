@@ -99,7 +99,7 @@ const result = {
       preview_url: "string",
       track_number: 0,
       type: "track",
-      uri: "string",
+      uri: "spotify:track:2MuWTIM3b0YEAskbeeFE1i",
       is_local: false,
     },
     {
@@ -189,7 +189,7 @@ const result = {
       preview_url: "string",
       track_number: 0,
       type: "track",
-      uri: "string",
+      uri: "spotify:track:3nlGByvetDcS1uomAoiBmy",
       is_local: false,
     },
   ],
@@ -199,6 +199,7 @@ function App() {
   const [tracks, setTracks] = useState([]);
   const [playlistName, setPlaylistName] = useState("");
   const [playlist, setPlaylist] = useState([]);
+  const [spotifyURIs, setSpotifyURIs] = useState([]);
 
   const searchSpotify = (searchTerm) => {
     console.log(`Searching Spotify for "${searchTerm}"`);
@@ -219,6 +220,11 @@ function App() {
     setPlaylist(playlist.filter((value) => value.id !== trackId));
   };
 
+  const onPlaylistSave = (playlist) => {
+    setSpotifyURIs(playlist.map((track) => track.uri));
+    setPlaylist([]);
+  };
+
   return (
     <>
       <h1 className="text-3xl font-bold m-3">Jammming</h1>
@@ -232,6 +238,7 @@ function App() {
               tracks={playlist}
               onNameChange={onPlaylistNameChange}
               remove={removeFromPlaylist}
+              onSave={onPlaylistSave}
             />
           </div>
         </div>

@@ -1,4 +1,6 @@
 const Track = ({ track, addToPlaylist, removeFromPlaylist }) => {
+  const trackNameLimit = 70;
+
   const onAdd = () => {
     addToPlaylist(track);
   };
@@ -10,7 +12,10 @@ const Track = ({ track, addToPlaylist, removeFromPlaylist }) => {
   return (
     <li key={track.id} className="flex justify-between items-center mb-2">
       <p className="text-sky-500">
-        {track.name} by {track.artists ? track.artists[0].name : "unknown"}
+        {track.name.length <= trackNameLimit
+          ? track.name
+          : track.name.substring(0, trackNameLimit) + "..."}{" "}
+        by {track.artist ?? "unknown"}
       </p>
       {addToPlaylist && (
         <button

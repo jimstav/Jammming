@@ -25,6 +25,32 @@ const Spotify = {
       window.location = accessUrl;
     }
   },
+
+  async search(term) {
+    const accessToken = Spotify.getAccessToken();
+    const response = await fetch(`https://api.spotify.com/v1/search?type=track&q=${term}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    try {
+      if (response.ok) {
+        const responseJSON = await response.json();
+        if (!responseJSON.tracks) {
+          return [];
+        }
+        return responseJSON.tracks.items.map((track) => ({
+          id: track.id,
+          name: track.name,
+          artist: track.artists[0]?.name,
+          album: track.album.name,
+          uri: track.uri,
+        }));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };
 
 export default Spotify;

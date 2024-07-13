@@ -49,6 +49,51 @@ const Spotify = {
       }
     } catch (error) {
       console.log(error);
+      return [];
+    }
+  },
+
+  async savePlaylist(name, trackUris) {
+    if (!name || !trackUris.length) {
+      return;
+    }
+
+    const accessToken = await Spotify.getAccessToken();
+    const headers = { Authorization: `Bearer ${accessToken}` };
+    let userId;
+
+    console.log(`Saving playlist ${name} with trackURIs ${trackUris}`);
+
+    const userResponse = await fetch(`https://api.spotify.com/v1/me`, { headers: headers });
+    try {
+      if (userResponse.ok) {
+        const responseJSON = await userResponse.json();
+        userId = responseJSON.id;
+
+        const createPlaylistResponse = await fetch(
+          `https://api.spotify.com/v1/users/${userId}/playlists`,
+          {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify({ name: name }),
+          }
+        );
+        if (createPlaylistResponse.ok) {
+          const createPlaylistResponseJSON = await createPlaylistResponse.json();
+          const playlistId = createPlaylistResponseJSON.id;
+          const savePlaylistResponse = await fetch(
+            `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
+            {
+              method: "POST",
+              headers: headers,
+              body: JSON.stringify({ uris: trackUris }),
+            }
+          );
+          console.log(savePlaylistResponse);
+        }
+      }
+    } catch (error) {
+      console.log(error);
     }
   },
 };

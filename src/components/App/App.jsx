@@ -9,13 +9,16 @@ function App() {
   const [tracks, setTracks] = useState([]);
   const [playlistName, setPlaylistName] = useState("");
   const [playlist, setPlaylist] = useState([]);
-  const [spotifyURIs, setSpotifyURIs] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const searchSpotify = (searchTerm) => {
+  const onChangeSearchTerm = (e) => setSearchTerm(e.target.value);
+
+  const searchSpotify = () => {
     console.log(`Searching Spotify for "${searchTerm}"`);
     Spotify.search(searchTerm).then((searchResults) => {
-      if (searchResults) {
+      if (searchResults && searchResults.length > 0) {
         setTracks(searchResults);
+        setSearchTerm("");
       }
     });
   };
@@ -31,12 +34,14 @@ function App() {
   };
 
   const removeFromPlaylist = (trackId) => {
-    setPlaylist(playlist.filter((value) => value.id !== trackId));
+    setPlaylist(playlist.filter((track) => track.id !== trackId));
   };
 
-  const onPlaylistSave = (playlist) => {
-    setSpotifyURIs(playlist.map((track) => track.uri));
+  const savePlaylist = () => {
+    const trackURIs = playlist.map((track) => track.uri);
+    Spotify.savePlaylist(playlistName, trackURIs);
     setPlaylist([]);
+    setPlaylistName("");
   };
 
   return (
@@ -44,7 +49,11 @@ function App() {
       <h1 className="text-3xl font-bold m-3">Jammming</h1>
       <div className="h-screen w-screen flex flex-col items-center">
         <div className="w-11/12 h-full">
-          <SearchBar search={searchSpotify} />
+          <SearchBar
+            searchTerm={searchTerm}
+            onChangeSearchTerm={onChangeSearchTerm}
+            search={searchSpotify}
+          />
           <div className="flex-1 p-4 grid grid-cols-1 lg:grid-cols-2 gap-4 h-full">
             <SearchResults tracks={tracks} addToPlaylist={addToPlaylist} />
             <Playlist
@@ -52,7 +61,7 @@ function App() {
               tracks={playlist}
               onNameChange={onPlaylistNameChange}
               remove={removeFromPlaylist}
-              onSave={onPlaylistSave}
+              onSave={savePlaylist}
             />
           </div>
         </div>

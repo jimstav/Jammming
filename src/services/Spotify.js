@@ -89,7 +89,7 @@ const Spotify = {
               body: JSON.stringify({ uris: trackUris }),
             }
           );
-          console.log(savePlaylistResponse);
+          return savePlaylistResponse;
         }
       }
     } catch (error) {

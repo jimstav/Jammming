@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Playlist from "../Playlist/Playlist";
 import SearchBar from "../SearchBar/SearchBar";
 import SearchResults from "../SearchResults/SearchResults";
@@ -11,16 +11,21 @@ function App() {
   const [playlist, setPlaylist] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
+  // Check for access token on mount
+  useEffect(() => {
+    Spotify.getAccessToken();
+  }, []);
+
   const onChangeSearchTerm = (e) => setSearchTerm(e.target.value);
 
-  const searchSpotify = () => {
+  const searchSpotify = async () => {
     console.log(`Searching Spotify for "${searchTerm}"`);
-    Spotify.search(searchTerm).then((searchResults) => {
-      if (searchResults && searchResults.length > 0) {
-        setTracks(searchResults);
-        setSearchTerm("");
-      }
-    });
+    const searchResults = await Spotify.search(searchTerm);
+
+    if (searchResults && searchResults.length > 0) {
+      setTracks(searchResults);
+      setSearchTerm("");
+    }
   };
 
   const onPlaylistNameChange = (value) => {
